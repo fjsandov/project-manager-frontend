@@ -1,9 +1,8 @@
 import React from 'react';
+import Layout from './Layout';
 
-export default function() {
-  return (
-    <div>
-      <h1>Home</h1>
-    </div>
-  );
-}
+export default () => (
+  <Layout>
+    <h1>Home</h1>
+  </Layout>
+);
