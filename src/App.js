@@ -1,12 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import Routes from './routes';
 
-function App() {
+function App({ store, history }) {
   return (
-    <Router>
-      <Routes />
-    </Router>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <Routes />
+      </ConnectedRouter>
+    </Provider>
   );
 }
 
