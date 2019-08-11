@@ -1,58 +1,77 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
+import { withFormik } from 'formik';
+import * as Yup from 'yup';
+import {compose} from 'redux';
 import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { signUp } from '../store/ducks/session';
+import FormControl from 'react-bootstrap/FormControl';
+import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
 
-function SignUp({ onSignUp }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const onSubmit = useCallback(
-    () => onSignUp({ email, password, passwordConfirmation })
-      .then(() => {
-        setEmail('');
-        setPassword('');
-        setPasswordConfirmation('');
-      }),
-    [email, password, passwordConfirmation, onSignUp],
-  );
+function SignUp({
+  values,
+  touched,
+  errors,
+  handleChange,
+  handleBlur,
+  handleSubmit,
+  isSubmitting,
+  isValid,
+}) {
   return (
-    <Form>
-      <Form.Group>
-        <Form.Label>Email</Form.Label>
-        <Form.Control
-          type="email"
-          placeholder="Enter email"
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          placeholder="Enter password"
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Password confirmation</Form.Label>
-        <Form.Control
-          type="password"
-          placeholder="Enter password again"
-          onChange={e => setPasswordConfirmation(e.target.value)}
-          required
-        />
-      </Form.Group>
+    <Form noValidate onSubmit={handleSubmit}>
+      <FormControl
+        name="email"
+        placeholder="Email"
+        value={values.email}
+        error={errors.email}
+        touched={touched.email}
+        isInvalid={!!errors.email}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        type="email"
+        className="mr-sm-2"
+      />
+      <Form.Control.Feedback type="invalid">
+        {errors.email}
+      </Form.Control.Feedback>
+      <FormControl
+        name="password"
+        placeholder="Password"
+        value={values.password}
+        error={errors.password}
+        touched={touched.password}
+        isInvalid={!!errors.password}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        type="password"
+        className="mr-sm-2"
+      />
+
+      <Form.Control.Feedback type="invalid">
+        {errors.password}
+      </Form.Control.Feedback>
+      <FormControl
+        name="passwordConfirmation"
+        placeholder="Confirm your password"
+        value={values.passwordConfirmation}
+        error={errors.passwordConfirmation}
+        touched={touched.passwordConfirmation}
+        isInvalid={!!errors.passwordConfirmation}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        type="password"
+        className="mr-sm-2"
+      />
+      <Form.Control.Feedback type="invalid">
+        {errors.passwordConfirmation}
+      </Form.Control.Feedback>
       <Button
-        variant="primary"
         type="submit"
-        onClick={onSubmit}
+        disabled={isSubmitting || !isValid}
+        variant="outline-success"
       >
         Sign up
       </Button>
@@ -64,4 +83,20 @@ const mapDispatchToProps = {
   onSignUp: signUp,
 };
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default compose(
+  connect(null, mapDispatchToProps),
+  withFormik({
+    mapPropsToValues: () => ({
+      email: '',
+      password: '',
+      passwordConfirmation: '',
+    }),
+    validationSchema: Yup.object().shape({
+      email: Yup.string().required(),
+      password: Yup.string().required(),
+      passwordConfirmation: Yup.string().required(),
+    }),
+    handleSubmit: (values, { props, setSubmitting }) =>
+      props.onSignUp(values).catch(() => setSubmitting(false)),
+  })
+)(SignUp);

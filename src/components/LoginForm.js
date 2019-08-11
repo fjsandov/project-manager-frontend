@@ -1,41 +1,63 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
+import { withFormik } from 'formik';
+import * as Yup from 'yup';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 
-export default function LoginForm({ onLogin }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const onSubmit = useCallback(
-    () => onLogin({ email, password })
-      .then(() => {
-        setEmail('');
-        setPassword('');
-      }),
-    [email, password, onLogin],
-  );
+function LoginForm({
+  values,
+  touched,
+  errors,
+  handleChange,
+  handleBlur,
+  handleSubmit,
+  isSubmitting,
+  isValid,
+}) {
   return (
-    <Form inline>
+    <Form inline onSubmit={handleSubmit}>
       <FormControl
-        type="text"
+        name="email"
         placeholder="Email"
+        value={values.email}
+        error={errors.email}
+        touched={touched.email}
+        isInvalid={!!errors.email}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        type="email"
         className="mr-sm-2"
-        onChange={e => setEmail(e.target.value)}
-        required
       />
       <FormControl
-        type="password"
+        name="password"
         placeholder="Password"
+        value={values.password}
+        error={errors.password}
+        touched={touched.password}
+        isInvalid={!!errors.password}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        type="password"
         className="mr-sm-2"
-        onChange={e => setPassword(e.target.value)}
-        required
       />
       <Button
+        type="submit"
+        disabled={isSubmitting || !isValid}
         variant="outline-success"
-        onClick={onSubmit}
       >
         Log in
       </Button>
     </Form>
   );
 }
+
+export default withFormik({
+  mapPropsToValues: () => ({ email: '', password: '' }),
+  validationSchema: Yup.object().shape({
+    email: Yup.string().required(),
+    password: Yup.string().required(),
+  }),
+  handleSubmit: (values, { props, setSubmitting }) =>
+    props.onLogin(values).catch(() => setSubmitting(false)),
+})(LoginForm);

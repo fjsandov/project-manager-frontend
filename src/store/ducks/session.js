@@ -29,8 +29,9 @@ export default function reducer(state = INITIAL_STATE, action) {
   }
 }
 
-export function login({ email, password }) {
+export function login(props) {
   return (dispatch) => {
+    const { email, password } = props;
     dispatch({ type: types.LOGIN });
     return getApi().session.login(email, password)
       .then(({ jwtToken, userId }) => {
@@ -56,7 +57,7 @@ export function signUp({ email, password, passwordConfirmation }) {
   return (dispatch) => {
     dispatch({ type: types.SIGN_UP });
     return getApi().session.signUp(email, password, passwordConfirmation)
-      .then(() => login({ email, password }));
+      .then(() => dispatch(login({ email, password })));
   };
 }
 
