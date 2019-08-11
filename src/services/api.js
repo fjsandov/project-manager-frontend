@@ -30,9 +30,9 @@ export default function getApi() {
           },
         }),
       }),
-      logout: (jwtToken) => authJsonFetch('logout', {
+      logout: () => authJsonFetch('logout', {
         method: 'DELETE',
-      }, jwtToken),
+      }),
     },
   }
 }
