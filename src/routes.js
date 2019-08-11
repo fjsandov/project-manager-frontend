@@ -9,6 +9,6 @@ export default function() {
         <Redirect to="/home" />
       </Route>
       <Route path="/home" component={Home} />
-    </Switch >
+    </Switch>
   );
 }
