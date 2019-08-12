@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getProjects, fetchProjects } from '../../store/ducks/projects';
+import {
+  getProjects,
+  fetchProjects,
+  deleteProject,
+} from '../../store/ducks/projects';
 import Table from 'react-bootstrap/Table';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 
-function ProjectRow({ id, name, project_type, start_at, end_at }) {
+function ProjectRow({ id, name, project_type, start_at, end_at }, removeProject) {
   return (
     <tr key={id}>
       <td>{name}</td>
@@ -17,7 +21,10 @@ function ProjectRow({ id, name, project_type, start_at, end_at }) {
           <Button variant="primary">
             Show
           </Button>
-          <Button variant="danger">
+          <Button
+            variant="danger"
+            onClick={() => removeProject(id)}
+          >
             Destroy
           </Button>
         </ButtonGroup>
@@ -26,7 +33,7 @@ function ProjectRow({ id, name, project_type, start_at, end_at }) {
   )
 }
 
-function ProjectList({ projects, getProjects }) {
+function ProjectList({ projects, getProjects, removeProject }) {
   useEffect(
     () => {
       getProjects()
@@ -45,7 +52,7 @@ function ProjectList({ projects, getProjects }) {
       </tr>
       </thead>
       <tbody>
-        {projects.map(ProjectRow)}
+        {projects.map((project) => ProjectRow(project, removeProject))}
       </tbody>
     </Table>
   );
@@ -59,6 +66,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getProjects: fetchProjects,
+  removeProject: deleteProject,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectList);

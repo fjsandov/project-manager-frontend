@@ -47,6 +47,9 @@ export default function getApi() {
           },
         }),
       }),
+      delete: (id) => authJsonFetch(`projects/${id}`, {
+        method: 'DELETE',
+      })
     }
   }
 }

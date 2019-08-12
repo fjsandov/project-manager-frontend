@@ -1,11 +1,13 @@
 import { createSelector } from 'reselect';
 import get from 'lodash/get';
+import filter from 'lodash/filter';
 import { goBack } from 'connected-react-router';
 import getApi from '../../services/api';
 
 const types = {
   SET_PROJECTS: 'projects/SET',
   ADD_PROJECT: 'projects/ADD',
+  DELETE_PROJECT: 'projects/DELETE',
 };
 
 const INITIAL_STATE = {
@@ -21,6 +23,10 @@ export default function reducer(state = INITIAL_STATE, action) {
     case types.ADD_PROJECT: {
       const { project } = action.payload;
       return { ...state, projects: [...state.projects, project] };
+    }
+    case types.DELETE_PROJECT: {
+      const { id: deletedId } = action.payload;
+      return { ...state, projects: filter(state.projects, ({ id }) => id !== deletedId) };
     }
     default:
       return state;
@@ -47,6 +53,16 @@ export function createProject({ name, projectType, startAt, endAt }) {
         payload: { project },
       }))
       .then(() => dispatch(goBack()));
+  };
+}
+
+export function deleteProject(id) {
+  return (dispatch) => {
+    return getApi().projects.delete(id)
+      .then(() => dispatch({
+        type: types.DELETE_PROJECT,
+        payload: { id },
+      }));
   };
 }
 
