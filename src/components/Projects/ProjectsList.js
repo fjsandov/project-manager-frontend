@@ -9,14 +9,15 @@ import {
 import Table from 'react-bootstrap/Table';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
+import { dateToString } from '../../utils/dates';
 
 function ProjectRow({ id, name, projectType, startAt, endAt }, removeProject) {
   return (
     <tr key={id}>
       <td>{name}</td>
       <td>{projectType}</td>
-      <td>{startAt}</td>
-      <td>{endAt}</td>
+      <td>{dateToString(startAt)}</td>
+      <td>{dateToString(endAt)}</td>
       <td>
         <ButtonGroup>
           <Link to={`/projects/${id}`}>
