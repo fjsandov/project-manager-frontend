@@ -13,7 +13,7 @@ export default ({ children }) => {
         </Col>
       </Row>
       <Row>
-        <Col md={{ span: 6, offset: 3 }}>
+        <Col md={{ span: 9, offset: 2 }}>
           {children}
         </Col>
       </Row>

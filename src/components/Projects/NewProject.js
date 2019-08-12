@@ -5,10 +5,10 @@ import {compose} from 'redux';
 import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { signUp } from '../store/ducks/session';
+import { createProject } from '../../store/ducks/projects';
 import FormControl from 'react-bootstrap/FormControl';
 
-function SignUp({
+function NewProject({
   values,
   errors,
   handleChange,
@@ -20,76 +20,92 @@ function SignUp({
   return (
     <Form noValidate onSubmit={handleSubmit}>
       <FormControl
-        name="email"
-        placeholder="Email"
-        value={values.email}
-        error={errors.email}
-        isInvalid={!!errors.email}
+        name="name"
+        placeholder="Name"
+        value={values.name}
+        error={errors.name}
+        isInvalid={!!errors.name}
         onChange={handleChange}
         onBlur={handleBlur}
-        type="email"
+        type="text"
         className="mr-sm-2"
       />
       <Form.Control.Feedback type="invalid">
-        {errors.email}
+        {errors.name}
       </Form.Control.Feedback>
       <FormControl
-        name="password"
-        placeholder="Password"
-        value={values.password}
-        error={errors.password}
-        isInvalid={!!errors.password}
+        name="projectType"
+        placeholder="project type"
+        value={values.projectType}
+        error={errors.projectType}
+        isInvalid={!!errors.projectType}
         onChange={handleChange}
         onBlur={handleBlur}
-        type="password"
+        type="text"
         className="mr-sm-2"
       />
       <Form.Control.Feedback type="invalid">
-        {errors.password}
+        {errors.projectType}
       </Form.Control.Feedback>
       <FormControl
-        name="passwordConfirmation"
-        placeholder="Confirm your password"
-        value={values.passwordConfirmation}
-        error={errors.passwordConfirmation}
-        isInvalid={!!errors.passwordConfirmation}
+        name="startAt"
+        placeholder="Start"
+        value={values.startAt}
+        error={errors.startAt}
+        isInvalid={!!errors.startAt}
         onChange={handleChange}
         onBlur={handleBlur}
-        type="password"
+        type="date"
         className="mr-sm-2"
       />
       <Form.Control.Feedback type="invalid">
-        {errors.passwordConfirmation}
+        {errors.startAt}
+      </Form.Control.Feedback>
+      <FormControl
+        name="endAt"
+        placeholder="End"
+        value={values.endAt}
+        error={errors.endAt}
+        isInvalid={!!errors.endAt}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        type="date"
+        className="mr-sm-2"
+      />
+      <Form.Control.Feedback type="invalid">
+        {errors.endAt}
       </Form.Control.Feedback>
       <Button
         type="submit"
         disabled={isSubmitting || !isValid}
         variant="outline-success"
       >
-        Sign up
+        Create project
       </Button>
     </Form>
   );
 }
 
 const mapDispatchToProps = {
-  onSignUp: signUp,
+  onCreateProject: createProject,
 };
 
 export default compose(
   connect(null, mapDispatchToProps),
   withFormik({
     mapPropsToValues: () => ({
-      email: '',
-      password: '',
-      passwordConfirmation: '',
+      name: '',
+      projectType: '',
+      startAt: undefined,
+      endAt: undefined,
     }),
     validationSchema: Yup.object().shape({
-      email: Yup.string().required(),
-      password: Yup.string().required(),
-      passwordConfirmation: Yup.string().required(),
+      name: Yup.string().required(),
+      projectType: Yup.string().required(),
+      startAt: Yup.date().required(),
+      endAt: Yup.date().required(),
     }),
     handleSubmit: (values, { props, setSubmitting }) =>
-      props.onSignUp(values).catch(() => setSubmitting(false)),
+      props.onCreateProject(values).catch(() => setSubmitting(false)),
   })
-)(SignUp);
+)(NewProject);

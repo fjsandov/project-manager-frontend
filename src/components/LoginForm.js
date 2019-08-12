@@ -7,7 +7,6 @@ import Button from 'react-bootstrap/Button';
 
 function LoginForm({
   values,
-  touched,
   errors,
   handleChange,
   handleBlur,
@@ -22,7 +21,6 @@ function LoginForm({
         placeholder="Email"
         value={values.email}
         error={errors.email}
-        touched={touched.email}
         isInvalid={!!errors.email}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -34,7 +32,6 @@ function LoginForm({
         placeholder="Password"
         value={values.password}
         error={errors.password}
-        touched={touched.password}
         isInvalid={!!errors.password}
         onChange={handleChange}
         onBlur={handleBlur}
