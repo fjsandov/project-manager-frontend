@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   getProjects,
   fetchProjects,
@@ -9,18 +10,20 @@ import Table from 'react-bootstrap/Table';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 
-function ProjectRow({ id, name, project_type, start_at, end_at }, removeProject) {
+function ProjectRow({ id, name, projectType, startAt, endAt }, removeProject) {
   return (
     <tr key={id}>
       <td>{name}</td>
-      <td>{project_type}</td>
-      <td>{start_at}</td>
-      <td>{end_at}</td>
+      <td>{projectType}</td>
+      <td>{startAt}</td>
+      <td>{endAt}</td>
       <td>
         <ButtonGroup>
-          <Button variant="primary">
-            Show
-          </Button>
+          <Link to={`/projects/${id}`}>
+            <Button variant="primary">
+              Show
+            </Button>
+          </Link>
           <Button
             variant="danger"
             onClick={() => removeProject(id)}
