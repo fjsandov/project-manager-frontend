@@ -61,6 +61,24 @@ export default function getApi() {
       delete: (id) => authJsonFetch(`projects/${id}`, {
         method: 'DELETE',
       })
+    },
+    tasks: {
+      list: (projectId) => authJsonFetch(`projects/${projectId}/tasks`),
+      create: (projectId, title, description, status, priority, deadline) => authJsonFetch(`projects/${projectId}/tasks`, {
+        method: 'POST',
+        body: JSON.stringify({
+          project: { title, description, status, priority, deadline },
+        }),
+      }),
+      update: (projectId, id, title, description, status, priority, deadline) => authJsonFetch(`/projects/${projectId}/tasks/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          project: { title, description, status, priority, deadline },
+        }),
+      }),
+      delete: (projectId, id) => authJsonFetch(`/projects/${projectId}/tasks/${id}`, {
+        method: 'DELETE',
+      })
     }
   }
 }

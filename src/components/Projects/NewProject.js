@@ -1,6 +1,6 @@
 import React from 'react';
 import { withFormik } from 'formik';
-import {compose} from 'redux';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createProject } from '../../store/ducks/projects';
 import projectSchema from '../../schemas/project';
