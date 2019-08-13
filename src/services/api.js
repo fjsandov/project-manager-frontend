@@ -67,16 +67,16 @@ export default function getApi() {
       create: (projectId, title, description, status, priority, deadline) => authJsonFetch(`projects/${projectId}/tasks`, {
         method: 'POST',
         body: JSON.stringify({
-          project: { title, description, status, priority, deadline },
+          task: { title, description, status, priority, deadline },
         }),
       }),
-      update: (projectId, id, title, description, status, priority, deadline) => authJsonFetch(`/projects/${projectId}/tasks/${id}`, {
+      update: (projectId, id, title, description, status, priority, deadline) => authJsonFetch(`projects/${projectId}/tasks/${id}`, {
         method: 'PATCH',
         body: JSON.stringify({
-          project: { title, description, status, priority, deadline },
+          task: { title, description, status, priority, deadline },
         }),
       }),
-      delete: (projectId, id) => authJsonFetch(`/projects/${projectId}/tasks/${id}`, {
+      delete: (projectId, id) => authJsonFetch(`projects/${projectId}/tasks/${id}`, {
         method: 'DELETE',
       })
     }

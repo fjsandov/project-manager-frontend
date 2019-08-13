@@ -30,7 +30,9 @@ export default function TaskForm({
       <Form.Control.Feedback type="invalid">
         {errors.title}
       </Form.Control.Feedback>
-      <FormControl
+      <Form.Control
+        as="textarea"
+        rows="3"
         name="description"
         placeholder="Description"
         value={values.description}
@@ -38,7 +40,6 @@ export default function TaskForm({
         isInvalid={!!errors.description}
         onChange={handleChange}
         onBlur={handleBlur}
-        type="text-area"
         className="mr-sm-2"
       />
       <Form.Control.Feedback type="invalid">

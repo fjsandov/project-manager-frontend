@@ -22,7 +22,8 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withFormik({
     mapPropsToValues: ({ task }) => ({
-      ...pick(task, 'title', 'description', 'status', 'priority'),
+      ...pick(task, 'title', 'status', 'priority'),
+      description: task.description || undefined,
       deadline: dateToString(task.deadline),
     }),
     validationSchema: taskSchema,
