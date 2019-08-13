@@ -8,9 +8,9 @@ import getApi from '../../services/api';
 import { convertFromBackend } from '../../utils/projects';
 
 const types = {
-  SET_PROJECTS: 'projects/SET',
+  SET_PROJECTS: 'projects/LIST',
   ADD_PROJECT: 'projects/ADD',
-  UPDATE_PROJECT: 'projects/UPDATE_PROJECT',
+  UPDATE_PROJECT: 'projects/UPDATE',
   DELETE_PROJECT: 'projects/DELETE',
 };
 

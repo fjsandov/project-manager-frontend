@@ -3,6 +3,8 @@ import { withFormik } from 'formik';
 import pick from 'lodash/pick';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 import { updateProject, getProject } from '../../store/ducks/projects';
 import ProjectForm from './ProjectForm';
 import projectSchema from '../../schemas/project';
@@ -31,4 +33,13 @@ export default compose(
       props.onUpdateProject({ id: props.match.params.id, ...values })
         .catch(() => setSubmitting(false)),
   })
-)((props) => <ProjectForm {...props} buttonText="Update project" />);
+)((props) => (
+  <>
+    <ProjectForm {...props} buttonText="Update project" />
+    <Link to={`/projects/${props.project.id}/tasks`}>
+      <Button variant="primary">
+        Show tasks
+      </Button>
+    </Link>
+  </>
+));

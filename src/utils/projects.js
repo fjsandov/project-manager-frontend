@@ -1,7 +1,8 @@
+import pick from 'lodash/pick';
+
 export function convertFromBackend(backendProject) {
   return {
-    id: backendProject.id,
-    name: backendProject.name,
+    ...pick(backendProject, 'id', 'name'),
     projectType: backendProject.project_type,
     startAt: backendProject.start_at,
     endAt: backendProject.end_at,
