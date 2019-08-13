@@ -3,8 +3,8 @@ import * as Yup from 'yup';
 const taskSchema = Yup.object().shape({
   title: Yup.string().required(),
   description: Yup.string(),
-  priority: Yup.string().required(),
-  status: Yup.string().required(),
+  priority: Yup.string().oneOf(['high', 'medium', 'low']).required(),
+  status: Yup.string().oneOf(['pending', 'working', 'done']).required(),
   deadline: Yup.date(),
 });
 
