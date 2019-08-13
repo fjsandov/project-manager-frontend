@@ -24,7 +24,6 @@ export default function() {
       <PrivateRoute exact path="/projects/:projectId/tasks" component={Tasks} />
       <PrivateRoute exact path="/projects/:projectId/tasks/new" component={NewTask} />
       <PrivateRoute path="/projects/:projectId/tasks/:id" component={EditTask} />
-
     </Switch>
   );
 }
