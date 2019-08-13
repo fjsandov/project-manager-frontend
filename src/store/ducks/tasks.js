@@ -23,7 +23,10 @@ export default function reducer(state = INITIAL_STATE, action) {
       const { tasks, projectId } = action.payload;
       return {
         ...state,
-        tasks: { ...state.tasks, [projectId]: tasks.map(convertFromBackend) },
+        tasks: {
+          ...state.tasks,
+          [projectId]: tasks.map(convertFromBackend),
+        },
       };
     }
     case types.ADD_TASK: {
@@ -32,7 +35,10 @@ export default function reducer(state = INITIAL_STATE, action) {
         ...state,
         tasks: {
           ...state.tasks,
-          [projectId]: [...state.tasks[projectId], convertFromBackend(task)],
+          [projectId]: [
+            ...state.tasks[projectId],
+            convertFromBackend(task),
+          ],
         },
       };
     }

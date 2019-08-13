@@ -56,5 +56,5 @@ export default withFormik({
     password: Yup.string().required(),
   }),
   handleSubmit: (values, { props, setSubmitting }) =>
-    props.onLogin(values).catch(() => setSubmitting(false)),
+    props.onLogin(values).finally(() => setSubmitting(false)),
 })(LoginForm);
