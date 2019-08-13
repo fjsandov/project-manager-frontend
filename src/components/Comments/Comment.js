@@ -30,15 +30,15 @@ function Comment({
   return (
     <Card className="text-center">
       <Card.Body>
-        <Card.Text style={styles.left}>
-          <Container>
-            <Row>
-              <Col>
+        <Container>
+          <Row>
+            <Col>
+              <Card.Text style={styles.left}>
                 {body}
-              </Col>
-            </Row>
-          </Container>
-        </Card.Text>
+              </Card.Text>
+            </Col>
+          </Row>
+        </Container>
       </Card.Body>
       <Card.Footer className="text-muted">
         <Container>

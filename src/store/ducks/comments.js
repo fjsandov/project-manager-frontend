@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 import get from 'lodash/get';
 import filter from 'lodash/filter';
-import find from 'lodash/find';
 import getApi from '../../services/api';
 import { convertFromBackend } from '../../utils/comments';
 
@@ -58,6 +57,39 @@ export default function reducer(state = INITIAL_STATE, action) {
         },
       };
     }
+    case types.TASKS.SET: {
+      const { comments, taskId } = action.payload;
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [taskId]: comments.map(convertFromBackend),
+        },
+      };
+    }
+    case types.TASKS.ADD: {
+      const { comment, taskId } = action.payload;
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [taskId]: [
+            ...state.tasks[taskId],
+            convertFromBackend(comment),
+          ],
+        }
+      };
+    }
+    case types.TASKS.DELETE: {
+      const { id: deletedId, taskId } = action.payload;
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [taskId]: filter(state.tasks[taskId], ({ id: commentId }) => commentId !== deletedId),
+        },
+      };
+    }
     default:
       return state;
   }
@@ -95,12 +127,44 @@ export function deleteProjectComment(projectId, id) {
   };
 }
 
+export function fetchTaskComments(projectId, taskId) {
+  return (dispatch) => {
+    return getApi().tasks.comments.list(projectId, taskId)
+      .then((comments) => {
+        dispatch({
+          type: types.TASKS.SET,
+          payload: { comments, taskId },
+        });
+      });
+  };
+}
+
+export function createTaskComment(projectId, taskId, { body }) {
+  return (dispatch) => {
+    return getApi().tasks.comments.create(projectId, taskId, body)
+      .then((comment) => dispatch({
+        type: types.TASKS.ADD,
+        payload: { taskId, comment },
+      }));
+  };
+}
+
+export function deleteTaskComment(projectId, taskId, id) {
+  return (dispatch) => {
+    return getApi().tasks.comments.delete(projectId, taskId, id)
+      .then(() => dispatch({
+        type: types.TASKS.DELETE,
+        payload: { taskId, id },
+      }));
+  };
+}
+
 function getProjectIdFromProps(state, props) {
   return Number(props.projectId);
 }
 
-function getCommentIdFromProps(state, props) {
-  return Number(props.id);
+function getTaskIdFromProps(state, props) {
+  return Number(props.taskId);
 }
 
 const getCommentsStore = state => state.comments;
@@ -111,8 +175,8 @@ export const getProjectComments = createSelector(
   (commentsStore, projectId) => get(commentsStore, `projects.${projectId}`),
 );
 
-export const getProjectComment = createSelector(
-  getCommentIdFromProps,
-  getProjectComments,
-  (commentId, projectComments) => find(projectComments, { id: commentId }),
+export const getTaskComments = createSelector(
+  getCommentsStore,
+  getTaskIdFromProps,
+  (commentsStore, taskId) => get(commentsStore, `tasks.${taskId}`),
 );

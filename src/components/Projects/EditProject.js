@@ -70,7 +70,7 @@ function EditProject({
 function mapStateToProps(state, { match: { params: { id: projectId } } }) {
   return {
     project: getProject(state, { id: projectId }),
-    comments: getProjectComments(state, { projectId })
+    comments: getProjectComments(state, { projectId }),
   };
 }
 

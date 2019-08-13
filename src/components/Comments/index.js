@@ -39,10 +39,12 @@ function Comments({
       {isEmpty(comments)
         ? <h3>No comments</h3>
         : comments.reverse().map(comment => (
-          <Row style={styles.comment}>
+          <Row
+            key={`comment-${comment.id}`}
+            style={styles.comment}
+          >
             <Col>
               <Comment
-                key={`project-comment-${comment.id}`}
                 comment={comment}
                 onDelete={onDelete}
               />
