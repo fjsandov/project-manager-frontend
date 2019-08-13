@@ -30,6 +30,34 @@ export default function TaskForm({
       <Form.Control.Feedback type="invalid">
         {errors.title}
       </Form.Control.Feedback>
+      <FormControl
+        name="priority"
+        placeholder="Priority"
+        value={values.priority}
+        error={errors.priority}
+        isInvalid={!!errors.priority}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        type="text"
+        className="mr-sm-2"
+      />
+      <Form.Control.Feedback type="invalid">
+        {errors.priority}
+      </Form.Control.Feedback>
+      <FormControl
+        name="status"
+        placeholder="Status"
+        value={values.status}
+        error={errors.status}
+        isInvalid={!!errors.status}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        type="text"
+        className="mr-sm-2"
+      />
+      <Form.Control.Feedback type="invalid">
+        {errors.status}
+      </Form.Control.Feedback>
       <Form.Control
         as="textarea"
         rows="3"
