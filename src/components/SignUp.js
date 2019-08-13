@@ -90,6 +90,6 @@ export default compose(
       passwordConfirmation: Yup.string().required(),
     }),
     handleSubmit: (values, { props, setSubmitting }) =>
-      props.onSignUp(values).catch(() => setSubmitting(false)),
+      props.onSignUp(values).finally(() => setSubmitting(false)),
   })
 )(SignUp);

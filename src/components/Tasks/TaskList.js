@@ -40,7 +40,7 @@ function TaskRow(projectId, { id, title, priority, deadline, status }, removeTas
 function TaskList({ projectId, tasks, getTasksFromAPI, removeTask }) {
   useEffect(
     () => {
-      getTasksFromAPI(projectId)
+      getTasksFromAPI(projectId);
     },
     [projectId, getTasksFromAPI],
   );

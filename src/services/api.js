@@ -47,7 +47,7 @@ export default function getApi() {
           },
         }),
       }),
-      update: (id, name, projectType, startAt, endAt) => authJsonFetch(`/projects/${id}`, {
+      update: (id, name, projectType, startAt, endAt) => authJsonFetch(`projects/${id}`, {
         method: 'PATCH',
         body: JSON.stringify({
           project: {
@@ -60,7 +60,19 @@ export default function getApi() {
       }),
       delete: (id) => authJsonFetch(`projects/${id}`, {
         method: 'DELETE',
-      })
+      }),
+      comments: {
+        list: (projectId) => authJsonFetch(`projects/${projectId}/comments`),
+        create: (projectId, body) => authJsonFetch(`projects/${projectId}/comments`, {
+          method: 'POST',
+          body: JSON.stringify({
+            comment: { body },
+          }),
+        }),
+        delete: (projectId, id) => authJsonFetch(`projects/${projectId}/comments/${id}`, {
+          method: 'DELETE',
+        }),
+      }
     },
     tasks: {
       list: (projectId) => authJsonFetch(`projects/${projectId}/tasks`),
@@ -78,7 +90,19 @@ export default function getApi() {
       }),
       delete: (projectId, id) => authJsonFetch(`projects/${projectId}/tasks/${id}`, {
         method: 'DELETE',
-      })
+      }),
+      comments: {
+        list: (projectId, taskId) => authJsonFetch(`projects/${projectId}/tasks/${taskId}/comments`),
+        create: (projectId, taskId, body) => authJsonFetch(`projects/${projectId}/tasks/${taskId}/comments`, {
+          method: 'POST',
+          body: JSON.stringify({
+            comment: { body },
+          }),
+        }),
+        delete: (projectId, taskId, id) => authJsonFetch(`projects/${projectId}/tasks/${taskId}/comments/${id}`, {
+          method: 'DELETE',
+        }),
+      }
     }
   }
 }
