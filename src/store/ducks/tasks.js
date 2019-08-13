@@ -50,7 +50,7 @@ export default function reducer(state = INITIAL_STATE, action) {
         },
       };
     }
-    case types.DELETE_PROJECT: {
+    case types.DELETE_TASK: {
       const { id: deletedId, projectId } = action.payload;
       return {
         ...state,

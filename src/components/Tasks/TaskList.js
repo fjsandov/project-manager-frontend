@@ -11,7 +11,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import { dateToString } from '../../utils/dates';
 
-function TaskRow({ id, projectId, title, priority, deadline, status }, removeTask) {
+function TaskRow(projectId, { id, title, priority, deadline, status }, removeTask) {
   return (
     <tr key={id}>
       <td>{title}</td>
@@ -27,7 +27,7 @@ function TaskRow({ id, projectId, title, priority, deadline, status }, removeTas
           </Link>
           <Button
             variant="danger"
-            onClick={() => removeTask(id)}
+            onClick={() => removeTask(projectId, id)}
           >
             Destroy
           </Button>
@@ -37,12 +37,12 @@ function TaskRow({ id, projectId, title, priority, deadline, status }, removeTas
   )
 }
 
-function TaskList({ tasks, getTasks, removeTask }) {
+function TaskList({ projectId, tasks, getTasksFromAPI, removeTask }) {
   useEffect(
     () => {
-      getTasks()
+      getTasksFromAPI(projectId)
     },
-    [getTasks],
+    [projectId, getTasksFromAPI],
   );
   return (
     <Table striped bordered hover>
@@ -56,7 +56,7 @@ function TaskList({ tasks, getTasks, removeTask }) {
       </tr>
       </thead>
       <tbody>
-        {tasks && tasks.map((task) => TaskRow(task, removeTask))}
+        {tasks && tasks.map((task) => TaskRow(projectId, task, removeTask))}
       </tbody>
     </Table>
   );
@@ -69,7 +69,7 @@ function mapStateToProps(state, props) {
 }
 
 const mapDispatchToProps = {
-  getTasks: fetchTasks,
+  getTasksFromAPI: fetchTasks,
   removeTask: deleteTask,
 };
 
