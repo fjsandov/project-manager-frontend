@@ -34,5 +34,33 @@ export default function getApi() {
         method: 'DELETE',
       }),
     },
+    projects: {
+      list: () => authJsonFetch('projects'),
+      create: (name, projectType, startAt, endAt) => authJsonFetch('projects', {
+        method: 'POST',
+        body: JSON.stringify({
+          project: {
+            name,
+            project_type: projectType,
+            start_at: startAt,
+            end_at: endAt,
+          },
+        }),
+      }),
+      update: (id, name, projectType, startAt, endAt) => authJsonFetch(`/projects/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          project: {
+            name,
+            project_type: projectType,
+            start_at: startAt,
+            end_at: endAt,
+          },
+        }),
+      }),
+      delete: (id) => authJsonFetch(`projects/${id}`, {
+        method: 'DELETE',
+      })
+    }
   }
 }

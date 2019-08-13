@@ -7,12 +7,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { signUp } from '../store/ducks/session';
 import FormControl from 'react-bootstrap/FormControl';
-import Col from 'react-bootstrap/Col';
-import InputGroup from 'react-bootstrap/InputGroup';
 
 function SignUp({
   values,
-  touched,
   errors,
   handleChange,
   handleBlur,
@@ -27,7 +24,6 @@ function SignUp({
         placeholder="Email"
         value={values.email}
         error={errors.email}
-        touched={touched.email}
         isInvalid={!!errors.email}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -42,14 +38,12 @@ function SignUp({
         placeholder="Password"
         value={values.password}
         error={errors.password}
-        touched={touched.password}
         isInvalid={!!errors.password}
         onChange={handleChange}
         onBlur={handleBlur}
         type="password"
         className="mr-sm-2"
       />
-
       <Form.Control.Feedback type="invalid">
         {errors.password}
       </Form.Control.Feedback>
@@ -58,7 +52,6 @@ function SignUp({
         placeholder="Confirm your password"
         value={values.passwordConfirmation}
         error={errors.passwordConfirmation}
-        touched={touched.passwordConfirmation}
         isInvalid={!!errors.passwordConfirmation}
         onChange={handleChange}
         onBlur={handleBlur}

@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { push } from 'connected-react-router';
 import get from 'lodash/get';
 import getApi from '../../services/api';
 
@@ -38,7 +39,8 @@ export function login({ email, password }) {
           type: types.LOGIN_SUCCESS,
           payload: { jwtToken, userId },
         });
-      });
+      })
+      .then(() => dispatch(push('/projects')));
   };
 }
 
@@ -46,9 +48,8 @@ export function logout() {
   return async (dispatch) => {
     dispatch({ type: types.LOGOUT });
     return getApi().session.logout()
-      .then(() => {
-        dispatch({ type: types.LOGOUT_SUCCESS });
-      });
+      .then(() => dispatch(push('/home')))
+      .then(() =>  dispatch({ type: types.LOGOUT_SUCCESS }));
   };
 }
 

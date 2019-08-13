@@ -5,10 +5,10 @@ import {
   login,
   logout,
 } from '../store/ducks/session';
+import { Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
 import LoginForm from './LoginForm';
 
 function NavBar({ isSignedIn, onLogin, onLogout }) {
@@ -18,7 +18,7 @@ function NavBar({ isSignedIn, onLogin, onLogout }) {
   );
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">
+      <Navbar.Brand>
         Project manager
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
